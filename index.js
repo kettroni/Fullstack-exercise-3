@@ -8,6 +8,23 @@ const randomize = () => {
   return Math.floor(Math.random()*100000)
 }
 
+const validTest = (param) => {
+  const errors = []
+
+  if (param.name === undefined) {
+    errors.push('name must be defined')
+  } else if (param.name === '') {
+    errors.push('name cannot be empty')
+  } else if (param.number === undefined) {
+    errors.push('number must be defined')
+  } else if (param.number === '') {
+    errors.push('number must be defined')
+  } else if (persons.find(person => person.name === param.name)) {
+    errors.push('name must be unique')
+  }
+  return errors
+}
+
 let persons = [
   {
     name: "Arto Hellas",
@@ -56,7 +73,10 @@ app.delete('/api/persons/:id', (req,res) => {
 app.post('/api/persons', (req, res) => {
 
   const temp = req.body
-  console.log(temp.name)
+  const errors = validTest(temp)
+  if (errors.length > 0) {
+    return res.status(400).json({error: errors})
+  }
   const person = {
     name: temp.name,
     number: temp.number,
