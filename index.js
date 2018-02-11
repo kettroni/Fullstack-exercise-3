@@ -4,6 +4,10 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
 
+const randomize = () => {
+  return Math.floor(Math.random()*100000)
+}
+
 let persons = [
   {
     name: "Arto Hellas",
@@ -47,6 +51,21 @@ app.delete('/api/persons/:id', (req,res) => {
   persons = persons.filter(person => person.id !== id)
 
   res.status(204).end()
+})
+
+app.post('/api/persons', (req, res) => {
+
+  const temp = req.body
+  console.log(temp.name)
+  const person = {
+    name: temp.name,
+    number: temp.number,
+    id: randomize().toString()
+  }
+
+  persons = persons.concat(person)
+
+  res.json(person)
 })
 
 app.get('/info', (req, res) => {
