@@ -1,7 +1,14 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 
+morgan.token('content', (req, res) => {
+  const temp = JSON.stringify(req.body)
+  return temp
+})
+
+app.use(morgan(':method :url :content :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json())
 
 const randomize = () => {
