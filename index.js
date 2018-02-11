@@ -14,6 +14,7 @@ morgan.token('content', (req, res) => {
 app.use(cors())
 app.use(morgan(':method :url :content :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json())
+app.use(express.static('build'))
 
 const randomize = () => {
   return Math.floor(Math.random()*100000)
