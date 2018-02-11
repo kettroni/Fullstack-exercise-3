@@ -2,12 +2,16 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
+
+
 
 morgan.token('content', (req, res) => {
   const temp = JSON.stringify(req.body)
   return temp
 })
 
+app.use(cors())
 app.use(morgan(':method :url :content :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json())
 
@@ -87,7 +91,7 @@ app.post('/api/persons', (req, res) => {
   const person = {
     name: temp.name,
     number: temp.number,
-    id: randomize().toString()
+    id: randomize()
   }
 
   persons = persons.concat(person)
