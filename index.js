@@ -3,7 +3,6 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
-const mongoose = require('mongoose')
 const Person = require('./models/person')
 
 
@@ -17,10 +16,6 @@ app.use(cors())
 app.use(morgan(':method :url :content :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json())
 app.use(express.static('build'))
-
-const randomize = () => {
-  return Math.floor(Math.random()*100000)
-}
 
 const validTest = (param) => {
   const errors = []
@@ -95,7 +90,6 @@ app.post('/api/persons', (req, res) => {
         person
           .save()
           .then((result) => {
-            console.log(result)
             return res.json(result)
           })
       }
@@ -139,7 +133,7 @@ app.put('/api/persons/:id', (req, res) => {
 })
 
 app.get('/info', (req, res) => {
-  res.send('<p>puhelinluettelossa ' + persons.length + ' henkilön tiedot</p>'
+  res.send('<p>puhelinluettelossa ' + ' henkilön tiedot</p>'
     + '<p>'+ new Date() + '</p>')
 })
 
