@@ -3,6 +3,9 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const mongoose = require('mongoose')
+const Person = require('./models/person')
+
 
 
 morgan.token('content', (req, res) => {
@@ -36,42 +39,21 @@ const validTest = (param) => {
   return errors
 }
 
-let persons = [
-  {
-    name: "Arto Hellas",
-    number: "040-123456",
-    id: 1
-  },
-  {
-    name: "Martti Tienari",
-    number: "040-123456",
-    id: 2
-  },
-  {
-    name: "Arto Järvinen",
-    number: "040-123456",
-    id: 3
-  },
-  {
-    name: "Lea Kutvonen",
-    number: "040-123456",
-    id: 4
-  }
-]
-
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
+  Person
+    .find({})
+    .then(persons => res.json(persons.map(Person.format)))
 })
 
 app.get('/api/persons/:id', (req,res) => {
-  const id = Number(req.params.id)
-  const searched = persons.find(person => person.id === id)
-
-  if (searched) {
-    res.json(searched)
-  } else {
-    res.status(404).end()
-  }
+  const id = req.params.id
+  Person.find({_id: id}).then(result => {
+    if (result.length !== 0) {
+      return (res.json(result.map(Person.format)))
+    } else {
+      return(res.status(404).end())
+    }
+  })
 })
 
 app.delete('/api/persons/:id', (req,res) => {
