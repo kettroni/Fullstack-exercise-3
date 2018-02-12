@@ -80,10 +80,9 @@ app.post('/api/persons', (req, res) => {
   })
 
   person
-    .$_save((err) => {
-      if (err) throw err;
-
-      console.log('Tallennettu onnistuneesti!')
+    .save()
+    .then((result) => {
+      return res.json(result)
     })
 })
 
