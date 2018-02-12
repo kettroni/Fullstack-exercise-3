@@ -81,9 +81,7 @@ app.post('/api/persons', (req, res) => {
 
   person
     .save()
-    .then(response => {
-      mongoose.connection.close()
-    })
+    .then(persons => res.json(persons.map(Person.format)))
 })
 
 app.get('/info', (req, res) => {
