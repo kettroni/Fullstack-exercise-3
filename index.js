@@ -46,14 +46,20 @@ app.get('/api/persons', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req,res) => {
-  const id = req.params.id
+  /*const id = req.params.id
   Person.find({_id: id}).then(result => {
     if (result.length !== 0) {
       return (res.json(result.map(Person.format)))
     } else {
       return(res.status(404).end())
     }
-  })
+  })*/
+  Person
+    .find({_id: req.params.id})
+    .then(persons => res.json(persons.map(Person.format)))
+    .catch((error) => {
+      return res.status(404).end()
+    })
 })
 
 app.delete('/api/persons/:id', (req,res) => {
