@@ -64,7 +64,7 @@ app.delete('/api/persons/:id', (req,res) => {
   const id = req.params.id
   Person
     .findByIdAndRemove(id, (result) => {
-      return res.json(result)
+      return res.json(result.map(Person.format))
     })
     .catch((error) => {
       return res.status(204).end()
@@ -88,6 +88,13 @@ app.post('/api/persons', (req, res) => {
     .then((result) => {
       return res.json(result)
     })
+})
+
+app.put('/api/persons/:id', (req, res) => {
+  const id = req.params.id
+  const temp = req.body
+
+
 })
 
 app.get('/info', (req, res) => {
