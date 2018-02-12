@@ -86,12 +86,19 @@ app.post('/api/persons', (req, res) => {
     name: temp.name,
     number: temp.number
   })
-
-  person
-    .save()
-    .then((result) => {
-      console.log(result)
-      return res.json(result)
+  Person
+    .find({name: temp.name})
+    .then(result => {
+      if (result.length > 0) {
+        return res.status(400).json('Already exists with this name!')
+      } else {
+        person
+          .save()
+          .then((result) => {
+            console.log(result)
+            return res.json(result)
+          })
+      }
     })
 })
 
