@@ -80,8 +80,11 @@ app.post('/api/persons', (req, res) => {
   })
 
   person
-    .save()
-    .then(persons => res.json(persons.map(Person.format)))
+    .save((err) => {
+      if (err) throw err;
+
+      console.log('Tallennettu onnistuneesti!')
+    })
 })
 
 app.get('/info', (req, res) => {
