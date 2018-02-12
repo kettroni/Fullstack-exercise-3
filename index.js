@@ -33,8 +33,6 @@ const validTest = (param) => {
     errors.push('number must be defined')
   } else if (param.number === '') {
     errors.push('number must be defined')
-  } else if (persons.find(person => person.name === param.name)) {
-    errors.push('name must be unique')
   }
   return errors
 }
@@ -76,15 +74,13 @@ app.post('/api/persons', (req, res) => {
   if (errors.length > 0) {
     return res.status(400).json({error: errors})
   }
-  const person = {
+  const person = new Person({
     name: temp.name,
-    number: temp.number,
-    id: randomize()
-  }
+    number: temp.number
+  })
 
-  persons = persons.concat(person)
-
-  res.json(person)
+  person
+    .save()
 })
 
 app.get('/info', (req, res) => {
